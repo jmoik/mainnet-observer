@@ -428,33 +428,9 @@ fn insert_block_stats(
     use crate::schema::block_stats;
     debug!("Inserting a batch of {} block stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(block_stats::table)
+    diesel::replace_into(block_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} block stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(block_stats::table)
-                        .values(stat)
-                        .on_conflict(block_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
 
@@ -465,33 +441,9 @@ fn insert_tx_stats(
     use crate::schema::tx_stats;
     debug!("Inserting a batch of {} tx stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(tx_stats::table)
+    diesel::replace_into(tx_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} tx stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(tx_stats::table)
-                        .values(stat)
-                        .on_conflict(tx_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
 
@@ -502,33 +454,9 @@ fn insert_input_stats(
     use crate::schema::input_stats;
     debug!("Inserting a batch of {} input stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(input_stats::table)
+    diesel::insert_into(input_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} input stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(input_stats::table)
-                        .values(stat)
-                        .on_conflict(input_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
 
@@ -539,33 +467,9 @@ fn insert_output_stats(
     use crate::schema::output_stats;
     debug!("Inserting a batch of {} output stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(output_stats::table)
+    diesel::replace_into(output_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} output stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(output_stats::table)
-                        .values(stat)
-                        .on_conflict(output_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
 
@@ -576,33 +480,9 @@ fn insert_script_stats(
     use crate::schema::script_stats;
     debug!("Inserting a batch of {} script stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(script_stats::table)
+    diesel::replace_into(script_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} script stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(script_stats::table)
-                        .values(stat)
-                        .on_conflict(script_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
 
@@ -613,32 +493,8 @@ fn insert_feerate_stats(
     use crate::schema::feerate_stats;
     debug!("Inserting a batch of {} feerate stats", stats.len());
 
-    if let Err(e) = diesel::insert_into(feerate_stats::table)
+    diesel::replace_into(feerate_stats::table)
         .values(stats)
-        .execute(conn)
-    {
-        match e {
-            diesel::result::Error::DatabaseError(
-                diesel::result::DatabaseErrorKind::UniqueViolation,
-                _,
-            ) => {
-                debug!(
-                    "Falling back to individually inserting {} feerate stats: {}",
-                    stats.len(),
-                    e
-                );
-                for stat in stats.iter() {
-                    diesel::insert_into(feerate_stats::table)
-                        .values(stat)
-                        .on_conflict(feerate_stats::height)
-                        .do_update()
-                        .set(stat)
-                        .execute(conn)?;
-                }
-                return Ok(());
-            }
-            _ => return Err(e),
-        }
-    }
+        .execute(conn)?;
     Ok(())
 }
