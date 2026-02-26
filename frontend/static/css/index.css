@@ -5,3 +5,20 @@
 .chart-card:hover {
     transform: scale(1.02);
 }
+
+.chart-thumbnail-wrapper {
+    background: linear-gradient(110deg, #e9ecef 8%, #f5f5f5 18%, #e9ecef 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+}
+
+.chart-thumbnail {
+    image-rendering: pixelated;
+    object-fit: cover;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
